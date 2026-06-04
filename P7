@@ -1,0 +1,35 @@
+#include <stdio.h>
+struct Item {
+    int w, v;
+};
+int main() {
+    int n, cap, i, j;
+    float profit = 0;
+    printf("Enter no. of items: ");
+    scanf("%d", &n);
+    struct Item a[n];
+    printf("Enter capacity: ");
+    scanf("%d", &cap);
+    for(i = 0; i < n; i++) {
+        printf("Item %d (weight value): ", i + 1);
+        scanf("%d%d", &a[i].w, &a[i].v);
+    }
+    for(i = 0; i < n - 1; i++)
+        for(j = i + 1; j < n; j++)
+            if((float)a[i].v/a[i].w < (float)a[j].v/a[j].w) {
+                struct Item t = a[i];
+                a[i] = a[j];
+                a[j] = t;
+            }
+    for(i = 0; i < n && cap > 0; i++) {
+        if(a[i].w <= cap) {
+            profit += a[i].v;
+            cap -= a[i].w;
+        } else {
+            profit += ((float)a[i].v / a[i].w) * cap;
+            break;
+        }
+    }
+    printf("knapsack problem using greedy algorithm the max value is = %.2f", profit);
+    return 0;
+}
